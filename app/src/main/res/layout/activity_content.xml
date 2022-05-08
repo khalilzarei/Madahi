@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.khz.madahi.ui.content.viewmodels.ContentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.content.ContentActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/background"
+            app:cardElevation="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="@{` نوحه های `+viewModel.category.title}"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="title" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:text="@{viewModel.category.night}"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2"
+                tools:text="night" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_500sdp"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp"
+            android:visibility="@{viewModel.isVisible?0:8}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutTitle">
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/shape_border"
+                android:gravity="center"
+                android:hint="عنوان"
+                android:padding="@dimen/_7sdp"
+                android:text="@={viewModel.contentTitle}"
+                android:textColor="@color/white"
+                android:textColorHint="#666666"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_border"
+                android:gravity="center"
+                android:hint="جواب"
+                android:padding="@dimen/_7sdp"
+                android:text="@={viewModel.contentAnswer}"
+                android:textColor="@color/white"
+                android:textColorHint="#666666"
+                app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+            <RadioGroup
+                android:id="@+id/layoutNoheh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_border"
+                android:gravity="center"
+                android:hint="جواب"
+                android:orientation="horizontal"
+                android:padding="@dimen/_7sdp"
+                android:textColor="@color/white"
+                android:textColorHint="#666666"
+                app:layout_constraintTop_toBottomOf="@+id/editText2">
+
+                <RadioButton
+                    android:id="@+id/rbNoheh"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:checked="@{viewModel.isNoheh?true:false}"
+                    android:onClick="@{viewModel::onRadioButtonClicked}"
+                    android:padding="@dimen/_5sdp"
+                    android:text="نوحه"
+                    android:textColor="@color/text_Color"
+                    android:textSize="25sp" />
+
+                <RadioButton
+                    android:id="@+id/rbRoozeh"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:checked="@{viewModel.isNoheh?false:true}"
+                    android:onClick="@{viewModel::onRadioButtonClicked}"
+                    android:padding="@dimen/_5sdp"
+                    android:text="روضه"
+                    android:textColor="@color/text_Color"
+                    android:textSize="25sp" />
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:background="@drawable/shape_border"
+                android:gravity="top"
+                android:hint="توضیحات"
+                android:minLines="10"
+                android:padding="@dimen/_7sdp"
+                android:text="@={viewModel.contentContent}"
+                android:textColor="@color/white"
+                android:textColorHint="#666666"
+                app:layout_constraintBottom_toTopOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/layoutNoheh" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/shape_button_clicked"
+                android:gravity="center"
+                android:onClick="@{viewModel::addCategory}"
+                android:padding="@dimen/_7sdp"
+                android:text="Save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            setContentItems="@{viewModel.contentAdapter}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:visibility="@{viewModel.isVisible?8:0}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutTitle"
+            tools:listitem="@layout/item_row_content"
+            tools:visibility="gone" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/shape_circle"
+            android:onClick="@{viewModel::changeVisibility}"
+            android:padding="@dimen/_10sdp"
+            android:src="@drawable/ic_add"
+            android:visibility="@{viewModel.isVisible?8:0}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
