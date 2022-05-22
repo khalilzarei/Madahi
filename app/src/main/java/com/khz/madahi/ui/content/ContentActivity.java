@@ -28,6 +28,7 @@ public class ContentActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_content);
         Category category = (Category) getIntent().getSerializableExtra("category");
+        setView(binding.getRoot());
         if (category == null) {
             onBackPressed();
             finish();
@@ -36,7 +37,9 @@ public class ContentActivity extends BaseActivity {
         adapter   = new ContentAdapter(this, items);
         viewModel = new ContentViewModel(this, adapter, category);
         binding.setViewModel(viewModel);
-        items = databaseHelper.contentDAO().getAllWithCategoryId(category.getId());
+        items = databaseHelper
+                .contentDAO()
+                .getAllWithCategoryId(category.getId());
         adapter.setData(items);
     }
 }

@@ -25,7 +25,8 @@ public class ContentItemViewModel extends BaseObservable {
     public ContentItemViewModel(BaseActivity activity, Content content) {
         this.activity = activity;
         this.content  = content;
-        setContentType(content.getContentType() == Const.ContentType.NOHEH ? "نوحه" : "روضه");
+        setContentType(content.getContentType()
+                              .equals("0") ? "نوحه" : "روضه");
 
     }
 

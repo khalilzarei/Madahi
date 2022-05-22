@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:padding="@dimen/_10sdp"
     tools:context=".ui.splash.SplashActivity">
 
     <TextView
@@ -14,6 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
         android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/button_green"
+        android:gravity="center"
         android:text="به نام خدا"
         android:textSize="35sp"
         android:textStyle="bold"
@@ -25,11 +28,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_green"
+        android:gravity="center"
         android:text="یا حسین"
+        android:textSize="35sp"
+        android:onClick="addCategory"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,29 +1,22 @@
-package com.khz.madahi.network;
+package com.khz.madahi.models.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.khz.madahi.models.User;
+import com.khz.madahi.models.Content;
 
-public class LoginResponse {
+import java.util.List;
 
-    @SerializedName("user")
-    @Expose
-    private User    user;
+public class DataResponse {
 
     @SerializedName("error")
     @Expose
-    private Boolean error;
+    private Boolean       error;
     @SerializedName("error_msg")
     @Expose
-    private String  errorMsg;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    private String        errorMsg;
+    @SerializedName("data")
+    @Expose
+    private List<Content> contents = null;
 
     public Boolean getError() {
         return error;
@@ -39,6 +32,14 @@ public class LoginResponse {
 
     public void setErrorMsg(String errorMsg) {
         this.errorMsg = errorMsg;
+    }
+
+    public List<Content> getContents() {
+        return contents;
+    }
+
+    public void setContents(List<Content> contents) {
+        this.contents = contents;
     }
 
 }

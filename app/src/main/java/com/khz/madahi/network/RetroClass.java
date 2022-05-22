@@ -15,44 +15,27 @@ public class RetroClass {
 
     private static Retrofit retrofit = null;
 
-    private static Retrofit getRetrofitInstance() {
-        Gson gson = new GsonBuilder().setLenient().create();
-        OkHttpClient okHttpClient = new OkHttpClient()
-                .newBuilder()
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .build();
-        return new Retrofit.Builder()
-                .baseUrl(Const.BASE_URL)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-    }
-
-    //    public static APIService getAPIService() {
-    //        return getRetrofitInstance().create(APIService.class);
-    //    }
-
     public static APIService getAPIService() {
-        OkHttpClient client = new OkHttpClient.Builder().readTimeout(2, TimeUnit.MINUTES)
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .readTimeout(2, TimeUnit.MINUTES)
                 .writeTimeout(2, TimeUnit.MINUTES)
                 .addInterceptor(chain -> {
                     Request original = chain.request();
                     Request.Builder requestBuilder = original
                             .newBuilder()
-                            .method(original
-                                    .method(), original
-                                    .body());
-                    Request request = requestBuilder
-                            .build();
+                            .method(original.method(), original.body());
+                    Request request = requestBuilder.build();
                     return chain.proceed(request);
                 })
                 .build();
         if (retrofit == null) {
-            retrofit = new Retrofit.Builder().baseUrl(Const.BASE_URL)
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(Const.BASE_URL)
                     .client(client)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit.create(APIService.class);

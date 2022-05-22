@@ -47,6 +47,13 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void setData(List<Content> items) {
         this.items.clear();
         this.items.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void addContent(Content content) {
+
+        this.items.add(content);
+        notifyDataSetChanged();
     }
 
 

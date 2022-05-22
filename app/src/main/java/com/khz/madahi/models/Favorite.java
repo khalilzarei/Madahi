@@ -4,6 +4,8 @@ package com.khz.madahi.models;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.khz.madahi.helper.Const;
 
 import java.io.Serializable;
@@ -14,9 +16,22 @@ public class Favorite implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int idFavorite;
 
-    private int contentId;
+    @SerializedName("id")
+    private String id;
 
-    public Favorite(int contentId) {
+    @SerializedName("content_id")
+    private String contentId;
+
+    @SerializedName("user_id")
+    private String userId;
+
+    @SerializedName("created_at")
+    private String createdAt;
+
+    @SerializedName("update_at")
+    private String updateAt;
+
+    public Favorite(String contentId) {
         this.contentId = contentId;
     }
 
@@ -28,11 +43,45 @@ public class Favorite implements Serializable {
         this.idFavorite = idFavorite;
     }
 
-    public int getContentId() {
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getContentId() {
         return contentId;
     }
 
-    public void setContentId(int contentId) {
+    public void setContentId(String contentId) {
         this.contentId = contentId;
     }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(String updateAt) {
+        this.updateAt = updateAt;
+    }
+
 }

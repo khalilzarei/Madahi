@@ -11,42 +11,51 @@
             type="com.khz.madahi.ui.category.viewmodels.CategoryViewModel" />
     </data>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutDirection="rtl"
-        android:textDirection="rtl">
+        android:orientation="horizontal"
+        android:textDirection="rtl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
 
         <androidx.recyclerview.widget.RecyclerView
             setCategoryItems="@{viewModel.categoryAdapter}"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
             android:visibility="@{viewModel.isVisible?8:0}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:spanCount="3"
-            tools:listitem="@layout/item_row_category" />
+            app:spanCount="2"
+            tools:listitem="@layout/item_row_category"
+            tools:visibility="gone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_border"
-            android:padding="@dimen/_10sdp"
+            android:background="@drawable/button_green"
+            android:padding="@dimen/_20sdp"
             android:visibility="@{viewModel.isVisible?0:8}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
 
             <EditText
                 android:id="@+id/editText"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_50sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/shape_border"
+                android:background="@drawable/button_green"
                 android:gravity="center"
                 android:hint="عنوان"
                 android:padding="@dimen/_7sdp"
@@ -62,10 +71,10 @@
             <EditText
                 android:id="@+id/editText2"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_50sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:background="@drawable/shape_border"
+                android:background="@drawable/button_green"
                 android:gravity="center"
                 android:hint="توضیحات"
                 android:padding="@dimen/_7sdp"
@@ -81,14 +90,15 @@
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_45sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/shape_button_clicked"
                 android:gravity="center"
                 android:onClick="@{viewModel::addCategory}"
                 android:padding="@dimen/_7sdp"
-                android:text="Save"
+                android:text="@string/save"
+                android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -97,18 +107,26 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
             android:layout_margin="15dp"
-            android:background="@drawable/shape_circle"
+            android:background="@drawable/fab_back"
+            android:gravity="center"
             android:onClick="@{viewModel::changeVisibility}"
-            android:padding="@dimen/_10sdp"
-            android:src="@drawable/ic_add"
             android:visibility="@{viewModel.isVisible?8:0}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:src="@drawable/ic_add"
+                app:tint="@color/background" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

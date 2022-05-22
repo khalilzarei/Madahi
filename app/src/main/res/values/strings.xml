@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Madahi</string>
+    <string name="app_name">دفتر مداحی</string>
+    <string name="save">ذخیره</string>
 </resources>

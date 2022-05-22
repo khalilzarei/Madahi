@@ -34,11 +34,12 @@ public class Content implements Serializable {
     @SerializedName("subject")
     @Expose
     private String subject;
-
-    Const.ContentType contentType;
+    @SerializedName("content_type")
+    @Expose
+    private String contentType;
 
     public Content(String id, String categoryId, String userId, String answer, String content, String subject,
-            Const.ContentType contentType) {
+            String contentType) {
         this.id          = id;
         this.categoryId  = categoryId;
         this.userId      = userId;
@@ -104,11 +105,12 @@ public class Content implements Serializable {
         this.subject = subject;
     }
 
-    public Const.ContentType getContentType() {
+    public String getContentType() {
         return contentType;
     }
 
-    public void setContentType(Const.ContentType contentType) {
+    public void setContentType(String contentType) {
         this.contentType = contentType;
     }
+
 }

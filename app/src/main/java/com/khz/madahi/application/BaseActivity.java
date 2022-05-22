@@ -35,6 +35,7 @@ public class BaseActivity extends AppCompatActivity {
     public  View           view;
 
     public DatabaseHelper databaseHelper;
+    public String         userId = "0";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +52,9 @@ public class BaseActivity extends AppCompatActivity {
         setActivity(this);
         setTag(BaseActivity.class.getSimpleName());
         hideTiTleActionBar();
-
+        if (SessionManager.isLoggedIn())
+            userId = SessionManager.getUser()
+                                   .getId();
     }
 
     public String getHtmlTag(String content) {
@@ -93,7 +96,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void toast(String message) {
-        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT)
+             .show();
     }
 
     public void log(String message) {
@@ -125,7 +129,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showErrorSnackBar(String message) {
-        Snackbar.make(view, message, Snackbar.LENGTH_LONG).setBackgroundTint(Color.RED).setTextColor(Color.YELLOW).show();
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                .setBackgroundTint(Color.RED)
+                .setTextColor(Color.YELLOW)
+                .show();
     }
 
     public boolean isNetworkConnected() {
@@ -142,7 +149,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showSuccessSnackBar(String message) {
-        Snackbar.make(view, message, Snackbar.LENGTH_LONG).setBackgroundTint(Color.GREEN).setTextColor(Color.BLACK).show();
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                .setBackgroundTint(Color.GREEN)
+                .setTextColor(Color.BLACK)
+                .show();
     }
 
 }

@@ -18,9 +18,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutTitle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/background"
-            app:cardElevation="@dimen/_15sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:background="@drawable/button_green"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -45,21 +44,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
-                android:text="@{viewModel.category.night}"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                android:text="@{viewModel.category.description}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
                 tools:text="night" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/white"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -72,15 +64,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutTitle">
+            app:layout_constraintTop_toBottomOf="@+id/layoutTitle"
+            tools:visibility="visible">
 
             <EditText
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_50sdp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/shape_border"
+                android:background="@drawable/button_green"
                 android:gravity="center"
                 android:hint="عنوان"
                 android:padding="@dimen/_7sdp"
@@ -93,9 +86,9 @@
             <EditText
                 android:id="@+id/editText2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_50sdp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/shape_border"
+                android:background="@drawable/button_green"
                 android:gravity="center"
                 android:hint="جواب"
                 android:padding="@dimen/_7sdp"
@@ -107,13 +100,13 @@
             <RadioGroup
                 android:id="@+id/layoutNoheh"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/shape_border"
+                android:background="@drawable/button_green"
                 android:gravity="center"
-                android:hint="جواب"
                 android:orientation="horizontal"
-                android:padding="@dimen/_7sdp"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingEnd="@dimen/_15sdp"
                 android:textColor="@color/white"
                 android:textColorHint="#666666"
                 app:layout_constraintTop_toBottomOf="@+id/editText2">
@@ -153,11 +146,11 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="@dimen/_20sdp"
-                android:background="@drawable/shape_border"
                 android:gravity="top"
-                android:hint="توضیحات"
+                android:background="@drawable/shape_border"
+                android:hint="متن"
                 android:minLines="10"
-                android:padding="@dimen/_7sdp"
+                android:padding="@dimen/_10sdp"
                 android:text="@={viewModel.contentContent}"
                 android:textColor="@color/white"
                 android:textColorHint="#666666"
@@ -167,14 +160,15 @@
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_48sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/shape_button_clicked"
                 android:gravity="center"
-                android:onClick="@{viewModel::addCategory}"
+                android:onClick="@{viewModel::addContent}"
                 android:padding="@dimen/_7sdp"
-                android:text="Save"
+                android:text="@string/save"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -187,8 +181,7 @@
             setContentItems="@{viewModel.contentAdapter}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:paddingStart="@dimen/_10sdp"
-            android:paddingEnd="@dimen/_10sdp"
+            android:layout_margin="@dimen/_10sdp"
             android:visibility="@{viewModel.isVisible?8:0}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -198,18 +191,30 @@
             tools:listitem="@layout/item_row_content"
             tools:visibility="gone" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+        <LinearLayout
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
             android:layout_margin="15dp"
-            android:background="@drawable/shape_circle"
+            android:background="@drawable/fab_back"
+            android:gravity="center"
             android:onClick="@{viewModel::changeVisibility}"
-            android:padding="@dimen/_10sdp"
-            android:src="@drawable/ic_add"
             android:visibility="@{viewModel.isVisible?8:0}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="gone">
+
+            <ImageView
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:background="@drawable/fab_back"
+                android:src="@drawable/ic_add"
+                app:tint="@color/background" />
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

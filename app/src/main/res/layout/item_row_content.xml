@@ -12,12 +12,28 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_50sdp"
         android:layout_margin="@dimen/_5sdp"
         android:background="@drawable/shape_button_clicked"
+        android:minHeight="@dimen/_40sdp"
         android:onClick="@{viewModel::onContentClick}"
         android:padding="@dimen/_5sdp">
 
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:gravity="center"
+            android:text="@{viewModel.content.subject}"
+            android:textColor="@color/text_Color"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Category" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,23 +44,11 @@
             android:textColor="@color/yellow"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             tools:text="نوحه" />
 
-
-        <TextView
-            android:id="@+id/cardRoom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:gravity="center"
-            android:text="@{viewModel.content.subject}"
-            android:textColor="@color/text_Color"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Category" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -54,9 +58,10 @@
             android:text="@{viewModel.content.answer}"
             android:textColor="@color/text_Color"
             android:textSize="14sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardRoom"
+            app:layout_constraintStart_toEndOf="@+id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             tools:text="Category" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

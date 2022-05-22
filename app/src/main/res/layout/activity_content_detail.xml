@@ -17,7 +17,8 @@
         <LinearLayout
             android:id="@+id/layoutTitle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@drawable/button_green"
             android:gravity="center"
             android:minHeight="?attr/actionBarSize"
             app:cardElevation="@dimen/_15sdp"
@@ -29,7 +30,7 @@
             <ImageView
                 android:id="@+id/ivZoomOut"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/shape_circle"
                 android:onClick="@{viewModel::decreaseFontSize}"
@@ -39,7 +40,7 @@
             <ImageView
                 android:id="@+id/ivChangeFont"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/shape_circle"
                 android:padding="@dimen/_5sdp"
@@ -49,7 +50,7 @@
             <ImageView
                 android:id="@+id/ivZoomIn"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="5dp"
@@ -60,38 +61,44 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/white"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/layoutTitle" />
-
-        <WebView
-            android:id="@+id/webView"
-            setContent="@{viewModel.content}"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="@dimen/_10sdp"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/tvAnswer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutTitle">
+
+
+            <WebView
+                android:id="@+id/webView"
+                setContent="@{viewModel.content}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/_5sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <TextView
             android:id="@+id/tvAnswer"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_border"
+            android:layout_height="@dimen/_45sdp"
+            android:background="@drawable/button_green"
             android:gravity="center"
             android:lines="1"
             android:maxLines="1"
             android:padding="@dimen/_10sdp"
             android:singleLine="true"
             android:text="@{viewModel.content.answer}"
-            android:textColor="@color/yellow"
+            android:textColor="@color/text_Color"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,5 +1,6 @@
 package com.khz.madahi.models;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 //@Entity(tableName = Constants.TABLE_USER)
@@ -8,17 +9,23 @@ public class User {
     @SerializedName("id")
     private String id;
 
-    @SerializedName("email")
-    private String email;
-
-    @SerializedName("password")
-    private String password;
+    @SerializedName("full_name")
+    private String fullName;
 
     @SerializedName("user_name")
     private String userName;
 
-    @SerializedName("created_at")
-    private String createdAt;
+    @SerializedName("email")
+    private String email;
+
+    @SerializedName("mobile")
+    private String mobile;
+
+    @SerializedName("create_at")
+    private String createAt;
+
+    @SerializedName("update_at")
+    private String updateAt;
 
     public String getId() {
         return id;
@@ -28,20 +35,12 @@ public class User {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getUserName() {
@@ -52,12 +51,36 @@ public class User {
         this.userName = userName;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
+    }
+
+    public String getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(String updateAt) {
+        this.updateAt = updateAt;
     }
 
 }

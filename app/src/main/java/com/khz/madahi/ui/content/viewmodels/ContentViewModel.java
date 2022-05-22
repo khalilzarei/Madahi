@@ -1,12 +1,10 @@
 package com.khz.madahi.ui.content.viewmodels;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
@@ -17,13 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khz.madahi.BR;
 import com.khz.madahi.R;
 import com.khz.madahi.application.BaseActivity;
-import com.khz.madahi.helper.Const;
 import com.khz.madahi.helper.SessionManager;
 import com.khz.madahi.models.Category;
 import com.khz.madahi.models.Content;
-import com.khz.madahi.models.User;
+import com.khz.madahi.models.response.AddContentResponse;
 import com.khz.madahi.network.APIService;
-import com.khz.madahi.network.LoginResponse;
 import com.khz.madahi.network.RetroClass;
 import com.khz.madahi.ui.content.adapter.ContentAdapter;
 
@@ -125,7 +121,7 @@ public class ContentViewModel extends BaseObservable {
     }
 
 
-    public void addCategory(View view) {
+    public void addContent(View view) {
         if (contentTitle == null || contentTitle.isEmpty()) {
             activity.toast("لطفا عنوان را وارد کنید!");
             return;
@@ -138,13 +134,86 @@ public class ContentViewModel extends BaseObservable {
             activity.toast("لطفا متن را وارد کنید!");
             return;
         }
+        String userId = SessionManager
+                .getUser()
+                .getId();
+        String contentMsg  = activity.getHtmlTag(contentContent);
+        String contentType = isNoheh ? "نوحه" : "روضه";
 
+        Content content = new Content("", category.getId(), userId, contentAnswer, contentMsg, contentTitle, contentType);
 
-        activity.databaseHelper.contentDAO().insert(new Content("", category.getId(), "1", contentAnswer, activity
-                .getHtmlTag(contentContent), contentTitle, isNoheh ? Const.ContentType.NOHEH : Const.ContentType.ROZEH));
-        contentAdapter.setData(activity.databaseHelper.contentDAO().getAllWithCategoryId(category.getId()));
-        setIsVisible(!getIsVisible());
+        if (!activity.isNetworkConnected()) {
+            activity.databaseHelper
+                    .contentDAO()
+                    .insert(content);
+            contentAdapter.addContent(content);
+            setIsVisible(!getIsVisible());
+        } else {
+            addContentToServer(view, content);
+        }
     }
+
+
+    //region Method
+    private void addContentToServer(View view, Content content) {
+        ProgressDialog progressDialog = new ProgressDialog(view.getContext());
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+
+        String userId = SessionManager
+                .getUser()
+                .getId();
+        String categoryId  = category.getId();
+        String answer      = content.getAnswer();
+        String contentMsg  = content.getContent();
+        String subject     = content.getSubject();
+        String contentType = isNoheh ? "0" : "1";
+        activity.log(
+                categoryId + " answer : " + answer + " contentMsg : " + contentMsg + " subject : " + subject + " contentType: " +
+                        contentType + " userId: " + userId);
+
+        APIService apiService = RetroClass.getAPIService();
+        Call<AddContentResponse> responseCall = apiService.insertContent(userId, categoryId, answer, contentMsg, subject,
+                contentType);
+        //        Call<AddContentResponse> responseCall = apiService.insertContent("1", "1", "answer", "<p>contentMsg</p>", "subject", "1");
+        responseCall.enqueue(new Callback<AddContentResponse>() {
+            @Override
+            public void onResponse(Call<AddContentResponse> call, Response<AddContentResponse> response) {
+
+                AddContentResponse resultResponse = response.body();
+                activity.log(resultResponse.getErrorMsg() + " " + resultResponse.getError());
+                if (response.isSuccessful()) {
+                    if (!resultResponse.getError())
+                        activity.showSuccessSnackBar(resultResponse.getErrorMsg());
+
+                    if (!resultResponse.getError()) {
+                        Content content = resultResponse.getContent();
+                        contentAdapter.addContent(content);
+                        activity.databaseHelper
+                                .contentDAO()
+                                .insert(content);
+                    } else {
+                        activity.showErrorSnackBar(resultResponse.getErrorMsg());
+                    }
+
+                    new Handler().postDelayed(progressDialog::dismiss, 1000);
+                    setIsVisible(!getIsVisible());
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<AddContentResponse> call, Throwable t) {
+                Log.e("onFailure", t.getMessage() + " ");
+                new Handler().postDelayed(progressDialog::dismiss, 1000);
+            }
+        });
+
+    }
+
+
+    //endregion
+
 
     public void changeVisibility(View view) {
         setIsVisible(!getIsVisible());
@@ -164,51 +233,5 @@ public class ContentViewModel extends BaseObservable {
 
         }
     }
-
-    //region Method
-    private void login(View view) {
-   /*     ProgressDialog progressDialog = new ProgressDialog(view.getContext());
-        progressDialog.setMessage("Please wait...");
-        progressDialog.show();
-        APIService          apiService   = RetroClass.getAPIService();
-        Call<LoginResponse> responseCall = apiService.login(getEmail(), getPassword());
-        responseCall.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.isSuccessful()) {
-                    Log.e("login", response.body() + "");
-                    String  message = response.body().getErrorMsg();
-                    boolean error   = response.body().getError();
-                    if (!error) {
-                        activity.showSuccessSnackBar(message);
-                        User    user    = response.body().getUser();
-                        Project project = response.body().getProject();
-                        SessionManager.setUser(user);
-                        SessionManager.setProject(project);
-                        SessionManager.setIsLoggedIn(true);
-                        new Handler().postDelayed(() -> {
-                            progressDialog.dismiss();
-                            activity.startActivity(new Intent(activity, HomeActivity.class));
-                            activity.finish();
-                        }, 1000);
-                    } else {
-                        activity.showErrorSnackBar(message);
-                        new Handler().postDelayed(progressDialog::dismiss, 1000);
-                    }
-
-                }
-            }
-
-
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Log.e("onFailure", t.getMessage() + " ");
-                new Handler().postDelayed(progressDialog::dismiss, 1000);
-            }
-        });
-*/
-    }
-
-    //endregion
 
 }
