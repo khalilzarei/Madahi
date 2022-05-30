@@ -20,6 +20,7 @@ public class LoginActivity extends BaseActivity {
         binding   = DataBindingUtil.setContentView(this, R.layout.activity_login);
         viewModel = new LoginViewModel(this);
         binding.setViewModel(viewModel);
-        setView(binding.getRoot());
+        setBaseActivityValues(this, binding.getRoot(), this.getClass().getSimpleName());
     }
+
 }

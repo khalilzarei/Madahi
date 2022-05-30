@@ -12,8 +12,8 @@ final public class Const {
     public static final String TABLE_NAME_CATEGORIES   = "table_name_categories";
     public static final String TABLE_NAME_FAVORITE     = "table_name_favorite";
 
-    public static final String SERVER_URL     = "http://192.168.1.101/";
-    public static final String BASE_URL       = SERVER_URL + "Madahi/api/";
+    public static final String SERVER_URL     = "https://madahinote.ir/";
+    public static final String BASE_URL       = SERVER_URL + "api/";
     public static final String IMAGE_BASE_URL = SERVER_URL + "image/";
 
 }

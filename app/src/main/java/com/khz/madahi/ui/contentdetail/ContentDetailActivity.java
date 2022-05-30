@@ -28,5 +28,8 @@ public class ContentDetailActivity extends BaseActivity {
         }
         viewModel = new ContentDetailViewModel(this, content);
         binding.setViewModel(viewModel);
+        setBaseActivityValues(this, binding.getRoot(), this.getClass().getSimpleName());
     }
+
+
 }

@@ -3,6 +3,8 @@ package com.khz.madahi.ui.content;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.khz.madahi.R;
@@ -28,7 +30,6 @@ public class ContentActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_content);
         Category category = (Category) getIntent().getSerializableExtra("category");
-        setView(binding.getRoot());
         if (category == null) {
             onBackPressed();
             finish();
@@ -37,9 +38,10 @@ public class ContentActivity extends BaseActivity {
         adapter   = new ContentAdapter(this, items);
         viewModel = new ContentViewModel(this, adapter, category);
         binding.setViewModel(viewModel);
-        items = databaseHelper
-                .contentDAO()
-                .getAllWithCategoryId(category.getId());
+        items = databaseHelper.contentDAO()
+                              .getAllWithCategoryId(category.getId());
         adapter.setData(items);
+        setBaseActivityValues(this, binding.getRoot(), this.getClass().getSimpleName());
     }
+
 }

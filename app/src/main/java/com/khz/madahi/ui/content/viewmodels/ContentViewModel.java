@@ -43,6 +43,11 @@ public class ContentViewModel extends BaseObservable {
         this.category       = category;
     }
 
+    public ContentViewModel(BaseActivity activity, ContentAdapter contentAdapter) {
+        this.activity       = activity;
+        this.contentAdapter = contentAdapter;
+    }
+
     @Bindable
     public boolean getIsNoheh() {
         return isNoheh;

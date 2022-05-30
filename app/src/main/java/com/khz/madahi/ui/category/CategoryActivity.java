@@ -1,7 +1,9 @@
 package com.khz.madahi.ui.category;
 
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 
@@ -24,11 +26,23 @@ public class CategoryActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_category);
-        setView(binding.getRoot());
-        categories = databaseHelper.categoryDAO().getAll();
+        binding    = DataBindingUtil.setContentView(this, R.layout.activity_category);
+        categories = databaseHelper.categoryDAO()
+                                   .getAll();
         viewModel  = new CategoryViewModel(this, new CategoryAdapter(this, categories));
         binding.setViewModel(viewModel);
+        setBaseActivityValues(this, binding.getRoot(), this.getClass().getSimpleName());
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+        new AlertDialog.Builder(this).setTitle("خروج")
+                                     .setMessage("از برنامه خارج می شوید؟")
+                                     .setPositiveButton("بله", (dialogInterface, i) -> finish())
+                                     .setNegativeButton("خیر", null)
+                                     .show();
     }
 
 }

@@ -43,14 +43,27 @@
 
 
             <EditText
+                android:id="@+id/etFullName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_55sdp"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:background="@drawable/button_green"
+                android:gravity="center"
+                android:hint="نام و نام خانوادگی"
+                android:text="@={viewModel.fullName}"
+                android:textColor="@color/text_Color"
+                android:textColorHint="@color/hint_color"
+                android:visibility="@{viewModel.isLogin?8:0}" />
+
+            <EditText
                 android:id="@+id/etMobile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_55sdp"
                 android:layout_marginTop="@dimen/loginViewsMargin"
                 android:background="@drawable/button_green"
                 android:gravity="center"
-                android:hint="Phone Or email"
-                android:text="@={viewModel.email}"
+                android:hint="شماره موبایل"
+                android:text="@={viewModel.mobile}"
                 android:textColor="@color/text_Color"
                 android:textColorHint="@color/hint_color" />
 

@@ -15,7 +15,6 @@ import com.khz.madahi.helper.SessionManager;
 import com.khz.madahi.models.Category;
 import com.khz.madahi.models.Content;
 import com.khz.madahi.models.Favorite;
-import com.khz.madahi.models.User;
 import com.khz.madahi.models.response.LoginResponse;
 import com.khz.madahi.network.APIService;
 import com.khz.madahi.network.RetroClass;
@@ -29,9 +28,10 @@ import retrofit2.Response;
 public class LoginViewModel extends BaseObservable {
 
     //region variable
-    String       email   = "";
+    String       mobile   = "";
+    String       fullName = "";
     BaseActivity activity;
-    boolean      isLogin = true;
+    boolean      isLogin  = true;
     //endregion
 
     //region Constructor
@@ -45,13 +45,23 @@ public class LoginViewModel extends BaseObservable {
 
     //region Getter Setter
     @Bindable
-    public String getEmail() {
-        return email;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-        notifyPropertyChanged(BR.email);
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+        notifyPropertyChanged(BR.mobile);
+    }
+
+    @Bindable
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+        notifyPropertyChanged(BR.fullName);
     }
 
     @Bindable
@@ -68,8 +78,13 @@ public class LoginViewModel extends BaseObservable {
 
     //region OnClick
     public void checkLogin(View view) {
-        if (email == null || email.isEmpty()) {
-            activity.showErrorSnackBar("لطفا موبایل یا ایمیل خود را وارد کنید");
+
+        if (!isLogin && (fullName == null || fullName.isEmpty())) {
+            activity.showErrorSnackBar("لطفا نام نام خانوادگی خود را وارد کنید");
+            return;
+        }
+        if (mobile == null || mobile.isEmpty()) {
+            activity.showErrorSnackBar("لطفا موبایل خود را وارد کنید");
             return;
         }
 
@@ -79,7 +94,7 @@ public class LoginViewModel extends BaseObservable {
             else
                 register(view);
         } else {
-            activity.showErrorSnackBar("لطفا اتصت=ال به اینترنت را بررسی کنید");
+            activity.showErrorSnackBar("لطفا اتصال به اینترنت را بررسی کنید");
         }
 
     }
@@ -95,7 +110,7 @@ public class LoginViewModel extends BaseObservable {
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
         APIService          apiService   = RetroClass.getAPIService();
-        Call<LoginResponse> responseCall = apiService.login(getEmail());
+        Call<LoginResponse> responseCall = apiService.login(getMobile());
         responseCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -107,19 +122,16 @@ public class LoginViewModel extends BaseObservable {
                     if (!loginResponse.getError()) {
                         SessionManager.setIsLoggedIn(true);
                         for (Category category : loginResponse.getCategories()) {
-                            activity.databaseHelper
-                                    .categoryDAO()
-                                    .insert(category);
+                            activity.databaseHelper.categoryDAO()
+                                                   .insert(category);
                         }
                         for (Favorite favorite : loginResponse.getFavorites()) {
-                            activity.databaseHelper
-                                    .favoriteDAO()
-                                    .insert(favorite);
+                            activity.databaseHelper.favoriteDAO()
+                                                   .insert(favorite);
                         }
                         for (Content content : loginResponse.getContents()) {
-                            activity.databaseHelper
-                                    .contentDAO()
-                                    .insert(content);
+                            activity.databaseHelper.contentDAO()
+                                                   .insert(content);
                         }
 
                         SessionManager.setUser(loginResponse.getUser());
@@ -152,7 +164,7 @@ public class LoginViewModel extends BaseObservable {
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
         APIService          apiService   = RetroClass.getAPIService();
-        Call<LoginResponse> responseCall = apiService.register(getEmail());
+        Call<LoginResponse> responseCall = apiService.register(mobile, fullName);
         responseCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -164,19 +176,16 @@ public class LoginViewModel extends BaseObservable {
                     if (!loginResponse.getError()) {
                         SessionManager.setIsLoggedIn(true);
                         for (Category category : loginResponse.getCategories()) {
-                            activity.databaseHelper
-                                    .categoryDAO()
-                                    .insert(category);
+                            activity.databaseHelper.categoryDAO()
+                                                   .insert(category);
                         }
                         for (Favorite favorite : loginResponse.getFavorites()) {
-                            activity.databaseHelper
-                                    .favoriteDAO()
-                                    .insert(favorite);
+                            activity.databaseHelper.favoriteDAO()
+                                                   .insert(favorite);
                         }
                         for (Content content : loginResponse.getContents()) {
-                            activity.databaseHelper
-                                    .contentDAO()
-                                    .insert(content);
+                            activity.databaseHelper.contentDAO()
+                                                   .insert(content);
                         }
 
                         SessionManager.setUser(loginResponse.getUser());

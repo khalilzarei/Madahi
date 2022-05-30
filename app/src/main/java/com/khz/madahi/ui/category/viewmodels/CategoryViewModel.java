@@ -24,6 +24,7 @@ import com.khz.madahi.network.APIService;
 import com.khz.madahi.network.RetroClass;
 import com.khz.madahi.ui.category.CategoryActivity;
 import com.khz.madahi.ui.category.adapter.CategoryAdapter;
+import com.khz.madahi.ui.favorite.FavoritesActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -100,13 +101,11 @@ public class CategoryViewModel extends BaseObservable {
         }
         if (!activity.isNetworkConnected()) {
 
-            activity.databaseHelper
-                    .categoryDAO()
-                    .insert(new Category("", categoryTitle, categoryDescription));
+            activity.databaseHelper.categoryDAO()
+                                   .insert(new Category("", categoryTitle, categoryDescription));
 
-            categoryAdapter.setData(activity.databaseHelper
-                    .categoryDAO()
-                    .getAll());
+            categoryAdapter.setData(activity.databaseHelper.categoryDAO()
+                                                           .getAll());
 
             setIsVisible(!getIsVisible());
         } else
@@ -116,9 +115,8 @@ public class CategoryViewModel extends BaseObservable {
 
     //region Method
     private void addCategoryToServer(View view) {
-        activity.log("AddCategoryResponse : " + SessionManager
-                .getUser()
-                .getId() + " " + categoryTitle + " " + categoryDescription);
+        activity.log("AddCategoryResponse : " + SessionManager.getUser()
+                                                              .getId() + " " + categoryTitle + " " + categoryDescription);
         ProgressDialog progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
@@ -135,9 +133,8 @@ public class CategoryViewModel extends BaseObservable {
                 if (!resultResponse.getError()) {
                     Category category = resultResponse.getCategory();
                     categoryAdapter.addCategory(category);
-                    activity.databaseHelper
-                            .categoryDAO()
-                            .insert(category);
+                    activity.databaseHelper.categoryDAO()
+                                           .insert(category);
                     activity.showSuccessSnackBar(resultResponse.getErrorMsg() + " - " + category.getTitle());
                 } else {
                     activity.showErrorSnackBar(resultResponse.getErrorMsg());
@@ -194,5 +191,9 @@ public class CategoryViewModel extends BaseObservable {
 
     public void changeVisibility(View view) {
         setIsVisible(!getIsVisible());
+    }
+
+    public void goToFavorites(View view) {
+        activity.startActivity(new Intent(activity, FavoritesActivity.class));
     }
 }

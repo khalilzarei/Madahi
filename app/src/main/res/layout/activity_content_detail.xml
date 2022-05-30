@@ -83,6 +83,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+            <ImageView
+                android:id="@+id/ivFavorite"
+                setImageResource="@{viewModel.favoriteIcon}"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
+                android:layout_margin="15dp"
+                android:background="@drawable/shape_circle"
+                android:onClick="@{viewModel::insertFavorite}"
+                android:padding="@dimen/_5sdp"
+                android:visibility="@{viewModel.isFavorite?8:0}"
+                android:src="@drawable/ic_favorite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

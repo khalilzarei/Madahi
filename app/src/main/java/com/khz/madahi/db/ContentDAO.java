@@ -32,6 +32,11 @@ public interface ContentDAO {
     @Query("SELECT * FROM " + Const.TABLE_NAME_CONTENT + " WHERE categoryId=:id")
     List<Content> getAllWithCategoryId(String id);
 
+
+    @Query("SELECT * FROM " + Const.TABLE_NAME_CONTENT + " WHERE id in(SELECT contentId FROM " + Const.TABLE_NAME_FAVORITE + ")")
+    List<Content> getAllFavorites();
+
     @Query("DELETE FROM " + Const.TABLE_NAME_CONTENT)
     void deleteTable();
+
 }

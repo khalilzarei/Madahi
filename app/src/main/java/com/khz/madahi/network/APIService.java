@@ -4,6 +4,7 @@ package com.khz.madahi.network;
 import com.khz.madahi.models.response.AddCategoryResponse;
 import com.khz.madahi.models.response.AddContentResponse;
 import com.khz.madahi.models.response.DataResponse;
+import com.khz.madahi.models.response.InsertFavoriteResponse;
 import com.khz.madahi.models.response.LoginResponse;
 
 import retrofit2.Call;
@@ -27,7 +28,7 @@ public interface APIService {
 
     @FormUrlEncoded
     @POST("register.php")
-    Call<LoginResponse> register(@Field("data") String data);
+    Call<LoginResponse> register(@Field("data") String data, @Field("full_name") String fullName);
 
     //endregion
 
@@ -47,7 +48,23 @@ public interface APIService {
 
     //endregion
 
+    //region User Favorite
+
+    @FormUrlEncoded
+    @POST("getUserContents.php")
+    Call<DataResponse> getUserFavorites(@Field("user_id") String userId);
+
+    //endregion
+
     //region insert Category
+
+    @FormUrlEncoded
+    @POST("insertFavorite.php")
+    Call<InsertFavoriteResponse> insertFavorite(@Field("user_id") String userId, @Field("content_id") String contentId);
+
+    //endregion
+
+    //region insert Favorite
 
     @FormUrlEncoded
     @POST("insertCategory.php")

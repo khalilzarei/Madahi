@@ -31,11 +31,13 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        setView(findViewById(R.id.textView));
+        setBaseActivityValues(this, findViewById(R.id.textView), this.getClass()
+                                                                     .getSimpleName());
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(SplashActivity.this, CategoryActivity.class);
-            if (!SessionManager.isLoggedIn())
+            if (!SessionManager.isLoggedIn()) {
                 intent = new Intent(SplashActivity.this, LoginActivity.class);
+            }
 
             startActivity(intent);
             finish();
@@ -65,9 +67,8 @@ public class SplashActivity extends BaseActivity {
                     Category category = resultResponse.getCategory();
                     activity.log(category.getId() + " - " + category.getUserId() + " - " + category.getTitle() + " - " +
                             category.getDescription());
-                    activity.showSuccessSnackBar(response
-                            .body()
-                            .toString() + " - " + category.getTitle());
+                    activity.showSuccessSnackBar(response.body()
+                                                         .toString() + " - " + category.getTitle());
                 } else {
                     activity.showErrorSnackBar(resultResponse.getErrorMsg());
                 }
@@ -86,4 +87,6 @@ public class SplashActivity extends BaseActivity {
         });
 
     }
+
+
 }

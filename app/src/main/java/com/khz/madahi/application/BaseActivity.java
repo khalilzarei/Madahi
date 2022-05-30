@@ -27,12 +27,13 @@ import java.util.regex.Pattern;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
-    public  BaseActivity   activity;
-    private String         TAG;
-    public  SessionManager sessionManager;
-    public  View           view;
+    public BaseActivity activity;
+    public View         view;
+
+    public String         TAG;
+    public SessionManager sessionManager;
 
     public DatabaseHelper databaseHelper;
     public String         userId = "0";
@@ -49,8 +50,6 @@ public class BaseActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         activity       = this;
         databaseHelper = DatabaseHelper.getInstance(this);
-        setActivity(this);
-        setTag(BaseActivity.class.getSimpleName());
         hideTiTleActionBar();
         if (SessionManager.isLoggedIn())
             userId = SessionManager.getUser()
@@ -70,13 +69,6 @@ public class BaseActivity extends AppCompatActivity {
         return stringBuilder.toString();
     }
 
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
-    }
 
     private void hideTiTleActionBar() {
         //        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
@@ -104,14 +96,6 @@ public class BaseActivity extends AppCompatActivity {
         Log.e(TAG, message);
     }
 
-    public void setTag(String TAG) {
-        this.TAG = TAG;
-    }
-
-
-    public void setActivity(BaseActivity activity) {
-        this.activity = activity;
-    }
 
     public int dpToPx(int dp) {
         return (int) (dp * getResources().getDisplayMetrics().density);
@@ -153,6 +137,13 @@ public class BaseActivity extends AppCompatActivity {
                 .setBackgroundTint(Color.GREEN)
                 .setTextColor(Color.BLACK)
                 .show();
+    }
+
+
+    public void setBaseActivityValues(BaseActivity activity, View view, String TAG) {
+        this.activity = activity;
+        this.view     = view;
+        this.TAG      = TAG;
     }
 
 }
