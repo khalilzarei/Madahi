@@ -3,6 +3,7 @@ package com.khz.madahi.network;
 
 import com.khz.madahi.models.response.AddCategoryResponse;
 import com.khz.madahi.models.response.AddContentResponse;
+import com.khz.madahi.models.response.AppInfoResponse;
 import com.khz.madahi.models.response.DataResponse;
 import com.khz.madahi.models.response.InsertFavoriteResponse;
 import com.khz.madahi.models.response.LoginResponse;
@@ -11,6 +12,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface APIService {
@@ -70,6 +72,13 @@ public interface APIService {
     @POST("insertCategory.php")
     Call<AddCategoryResponse> insertCategory(@Field("user_id") String userId, @Field("msg") String title,
             @Field("description") String description);
+
+    //endregion
+
+    //region App Info
+
+    @GET("getAppInfo.php")
+    Call<AppInfoResponse> getAppInfo();
 
     //endregion
 

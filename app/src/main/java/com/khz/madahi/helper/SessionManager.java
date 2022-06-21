@@ -29,12 +29,12 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public static void setIsLoggedIn(boolean login) {
+    public void setIsLoggedIn(boolean login) {
         editor.putBoolean(IS_LOGGED_IN, login);
         editor.commit();
     }
 
-    public static boolean isLoggedIn() {
+    public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGGED_IN, false);
     }
 
@@ -65,7 +65,7 @@ public class SessionManager {
 
 
     public static String getFont() {
-        return pref.getString(KEY_FONT, "Vazir-Bold.ttf");
+        return pref.getString(KEY_FONT, "yekan.ttf");
     }
 
     public static void setFontSize(int size) {
@@ -87,7 +87,7 @@ public class SessionManager {
     private static final String USER_CREATE_AT = "USER_CREATE_AT";
     private static final String USER_UPDATE_AT = "USER_UPDATE_AT";
 
-    public static void setUser(User user) {
+    public  void setUser(User user) {
         editor.putString(USER_ID, user.getId());
         editor.putString(USER_USER_NAME, user.getUserName());
         editor.putString(USER_EMAIL, user.getEmail());

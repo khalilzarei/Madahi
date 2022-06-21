@@ -10,18 +10,16 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khz.madahi.BR;
 import com.khz.madahi.helper.SessionManager;
 import com.khz.madahi.models.Category;
-import com.khz.madahi.models.Content;
-import com.khz.madahi.models.Favorite;
 import com.khz.madahi.models.response.AddCategoryResponse;
 import com.khz.madahi.models.response.LoginResponse;
 import com.khz.madahi.network.APIService;
 import com.khz.madahi.network.RetroClass;
+import com.khz.madahi.ui.about.AboutActivity;
 import com.khz.madahi.ui.category.CategoryActivity;
 import com.khz.madahi.ui.category.adapter.CategoryAdapter;
 import com.khz.madahi.ui.favorite.FavoritesActivity;
@@ -29,7 +27,6 @@ import com.khz.madahi.ui.favorite.FavoritesActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Field;
 
 public class CategoryViewModel extends BaseObservable {
     CategoryAdapter  categoryAdapter;
@@ -106,10 +103,23 @@ public class CategoryViewModel extends BaseObservable {
 
             categoryAdapter.setData(activity.databaseHelper.categoryDAO()
                                                            .getAll());
+            categoryTitle       = "";
+            categoryDescription = "";
 
             setIsVisible(!getIsVisible());
         } else
             addCategoryToServer(view);
+    }
+
+    public void closeDialog(View view) {
+        setIsVisible(false);
+        categoryTitle       = "";
+        categoryDescription = "";
+
+    }
+
+    public void aboutMe(View view) {
+        activity.startActivity(new Intent(activity, AboutActivity.class));
     }
 
 
@@ -140,6 +150,8 @@ public class CategoryViewModel extends BaseObservable {
                     activity.showErrorSnackBar(resultResponse.getErrorMsg());
                 }
                 setIsVisible(!getIsVisible());
+                categoryTitle       = "";
+                categoryDescription = "";
                 new Handler().postDelayed(progressDialog::dismiss, 1000);
             }
 
@@ -194,6 +206,7 @@ public class CategoryViewModel extends BaseObservable {
     }
 
     public void goToFavorites(View view) {
+
         activity.startActivity(new Intent(activity, FavoritesActivity.class));
     }
 }

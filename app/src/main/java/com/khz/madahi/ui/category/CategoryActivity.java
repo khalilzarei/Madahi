@@ -3,7 +3,7 @@ package com.khz.madahi.ui.category;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.view.View;
+
 
 import androidx.databinding.DataBindingUtil;
 
@@ -13,6 +13,7 @@ import com.khz.madahi.databinding.ActivityCategoryBinding;
 import com.khz.madahi.models.Category;
 import com.khz.madahi.ui.category.adapter.CategoryAdapter;
 import com.khz.madahi.ui.category.viewmodels.CategoryViewModel;
+import com.pushpole.sdk.PushPole;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,17 +27,25 @@ public class CategoryActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding    = DataBindingUtil.setContentView(this, R.layout.activity_category);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_category);
+
+        PushPole.initialize(this, true);
         categories = databaseHelper.categoryDAO()
                                    .getAll();
         viewModel  = new CategoryViewModel(this, new CategoryAdapter(this, categories));
         binding.setViewModel(viewModel);
-        setBaseActivityValues(this, binding.getRoot(), this.getClass().getSimpleName());
+        setBaseActivityValues(this, binding.getRoot(), this.getClass()
+                                                           .getSimpleName());
     }
 
 
     @Override
     public void onBackPressed() {
+
+        if (viewModel.getIsVisible()) {
+            viewModel.setIsVisible(false);
+            return;
+        }
 
         new AlertDialog.Builder(this).setTitle("خروج")
                                      .setMessage("از برنامه خارج می شوید؟")

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.khz.madahi.R;
 import com.khz.madahi.application.BaseActivity;
@@ -27,6 +28,8 @@ public class FavoritesActivity extends BaseActivity {
         List<Content> items = databaseHelper.contentDAO()
                                             .getAllFavorites();
         if (items.size() == 0) {
+            Toast.makeText(activity, "نوحه برگزیده ای انتخاب نکرده اید!", Toast.LENGTH_SHORT)
+                 .show();
             onBackPressed();
             finish();
             return;

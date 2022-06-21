@@ -20,15 +20,22 @@
         <TextView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_60sdp"
             android:layout_marginTop="15dp"
+            android:background="@drawable/button_green"
+            android:gravity="center"
+            android:rotationX="0"
+            android:rotationY="0"
             android:text="@{viewModel.isLogin?`ورود`:`ثبت نام`}"
+            android:textColor="@color/yellow"
             android:textSize="30sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="ورود" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -62,7 +69,7 @@
                 android:layout_marginTop="@dimen/loginViewsMargin"
                 android:background="@drawable/button_green"
                 android:gravity="center"
-                android:hint="شماره موبایل"
+                android:hint="شماره موبال (متال 09000000000)"
                 android:text="@={viewModel.mobile}"
                 android:textColor="@color/text_Color"
                 android:textColorHint="@color/hint_color" />
@@ -83,16 +90,31 @@
         </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
+            android:id="@+id/textView6"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_marginEnd="@dimen/_15sdp"
+            android:background="@drawable/button_green"
             android:gravity="center"
             android:onClick="@{viewModel::changeLoginStatus}"
             android:padding="@dimen/_7sdp"
             android:text="@{!viewModel.isLogin?`ورود`:`ثبت نام`}"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:text="ثبت نام" />
+
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="@dimen/_60sdp"
+            android:text="@string/privacy_police"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

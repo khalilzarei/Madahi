@@ -41,7 +41,6 @@
         android:layout_height="@dimen/_60sdp"
         android:background="@drawable/button_green"
         android:gravity="center"
-        android:onClick="addCategory"
         android:text="یا حسین(ع)"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"

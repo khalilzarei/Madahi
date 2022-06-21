@@ -1,4 +1,33 @@
 <resources>
     <string name="app_name">دفتر مداحی</string>
     <string name="save">ذخیره</string>
+    <string name="about_me">درباره برنامه نویس</string>
+    <string name="next">بعدی</string>
+    <string name="skip">گذشتن</string>
+    <string name="start">شروع</string>
+    <string name="title_slide1">دفتر چه مداحی</string>
+    <string name="desc_slide1"> ذخیره سازی نوحه ها و روضه هاو دسترسی سریع </string>
+    <string name="title_slide2">سفارشی سازی </string>
+    <string name="desc_slide2">میتوانید نوحه ها و روضه های خود را سفارشی کنید و به تعداد دلخواه اضافه کنید</string>
+    <string name="title_slide3">کاملا رایگان</string>
+    <string name="desc_slide3">تمام امکانات این اپلیکیشن رایگان می باشد </string>
+    <string name="title_slide4">پیشنهادات</string>
+    <string name="desc_slide4"> در صورت داشتن پیشنهاد میتوانید با برنامه نویس اپ تماس بگیرین</string>
+    <string name="desc_slide_phone">09362371808</string>
+    <string name="developer">خلیل زارعی</string>
+    <string name="privacy_police">
+<html>
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body style="text-align: center;background: #192A19;">
+<P style="text-align: center;background: #192A19;color: yellow;">
+    با ورود یاثبت نام در دفترچه شما <a href='http://www.google.com'>شرایط و قوانین</a>
+    استفاده از سرویس سایت دفترچه تلفن و <a href='http://www.google.com'>قوانین حریم خصوصی </a>آن را می
+    پذیرید.
+
+</P>
+</body>
+</html>
+    </string>
 </resources>

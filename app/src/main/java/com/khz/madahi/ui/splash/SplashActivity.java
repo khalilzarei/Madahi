@@ -1,25 +1,27 @@
 package com.khz.madahi.ui.splash;
 
 
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
+import android.view.Gravity;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+import com.khz.madahi.BuildConfig;
 import com.khz.madahi.R;
 import com.khz.madahi.application.BaseActivity;
-import com.khz.madahi.helper.Const;
-import com.khz.madahi.helper.SessionManager;
-import com.khz.madahi.models.Category;
-import com.khz.madahi.models.Content;
-import com.khz.madahi.models.response.AddCategoryResponse;
+import com.khz.madahi.models.AppInfo;
+import com.khz.madahi.models.response.AppInfoResponse;
 import com.khz.madahi.network.APIService;
 import com.khz.madahi.network.RetroClass;
 import com.khz.madahi.ui.category.CategoryActivity;
+import com.khz.madahi.ui.intro.IntroActivity;
 import com.khz.madahi.ui.login.LoginActivity;
+import com.pushpole.sdk.PushPole;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogAnimation;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,61 +33,85 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        PushPole.initialize(this, true);
         setBaseActivityValues(this, findViewById(R.id.textView), this.getClass()
                                                                      .getSimpleName());
+        if (activity.isNetworkConnected())
+            getAppInfo();
+        else
+            startApp();
+    }
+
+
+    private void getAppInfo() {
+        APIService apiService = RetroClass.getAPIService();
+
+        Call<AppInfoResponse> responseCall = apiService.getAppInfo();
+
+        responseCall.enqueue(new Callback<AppInfoResponse>() {
+            @Override
+            public void onResponse(Call<AppInfoResponse> call, Response<AppInfoResponse> response) {
+                AppInfoResponse resultResponse = response.body();
+
+
+                if (!resultResponse.getError()) {
+                    AppInfo appInfo     = resultResponse.getAppInfo();
+                    int     versionCode = BuildConfig.VERSION_CODE;
+                    String  versionName = BuildConfig.VERSION_NAME;
+                    if (Integer.parseInt(appInfo.getVersionCode()) > versionCode) {
+                        new AestheticDialog.Builder(activity, DialogStyle.FLAT, DialogType.SUCCESS).setTitle("آپدیت")
+                                                                                                   .setMessage(
+                                                                                                           "نسخه جدید اپلیکیشن آماده است لطفا اپ را آپدیت کنید")
+                                                                                                   .setCancelable(true)
+                                                                                                   .setDarkMode(true)
+                                                                                                   .setGravity(Gravity.CENTER)
+                                                                                                   .setAnimation(
+                                                                                                           DialogAnimation.SHRINK)
+                                                                                                   .setOnClickListener(
+                                                                                                           builder -> {
+                                                                                                               builder.dismiss();
+                                                                                                               Intent browserIntent = new Intent(
+                                                                                                                       Intent.ACTION_VIEW,
+                                                                                                                       Uri.parse(
+                                                                                                                               appInfo.getAppUrl()));
+                                                                                                               startActivity(
+                                                                                                                       browserIntent);
+                                                                                                               finish();
+                                                                                                           })
+                                                                                                   .show();
+
+                    } else {
+                        startApp();
+                    }
+                } else {
+                    activity.showErrorSnackBar(resultResponse.getErrorMsg());
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<AppInfoResponse> call, Throwable t) {
+                activity.log("onFailure " + t.getMessage());
+            }
+        });
+
+    }
+
+    private void startApp() {
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(SplashActivity.this, CategoryActivity.class);
-            if (!SessionManager.isLoggedIn()) {
+
+            if (sessionManager.isFirstTimeLaunch()) {
+                intent = new Intent(SplashActivity.this, IntroActivity.class);
+            } else if (!sessionManager.isLoggedIn()) {
                 intent = new Intent(SplashActivity.this, LoginActivity.class);
             }
 
             startActivity(intent);
             finish();
 
-        }, 700);
-    }
-
-    public void addCategory(View view) {
-        addCategoryToServer(view);
-    }
-
-    private void addCategoryToServer(View view) {
-        ProgressDialog progressDialog = new ProgressDialog(view.getContext());
-        progressDialog.setMessage("Please wait...");
-        progressDialog.show();
-        APIService apiService = RetroClass.getAPIService();
-
-        Call<AddCategoryResponse> responseCall = apiService.insertCategory("1", "CategoryTitle", "CategoryDescription");
-
-        responseCall.enqueue(new Callback<AddCategoryResponse>() {
-            @Override
-            public void onResponse(Call<AddCategoryResponse> call, Response<AddCategoryResponse> response) {
-                AddCategoryResponse resultResponse = response.body();
-
-
-                if (!resultResponse.getError()) {
-                    Category category = resultResponse.getCategory();
-                    activity.log(category.getId() + " - " + category.getUserId() + " - " + category.getTitle() + " - " +
-                            category.getDescription());
-                    activity.showSuccessSnackBar(response.body()
-                                                         .toString() + " - " + category.getTitle());
-                } else {
-                    activity.showErrorSnackBar(resultResponse.getErrorMsg());
-                }
-                //
-                new Handler().postDelayed(progressDialog::dismiss, 1000);
-                //                setIsVisible(!getIsVisible());
-                //                }
-            }
-
-
-            @Override
-            public void onFailure(Call<AddCategoryResponse> call, Throwable t) {
-                activity.log("onFailure " + t.getMessage());
-                new Handler().postDelayed(progressDialog::dismiss, 1000);
-            }
-        });
-
+        }, 300);
     }
 
 

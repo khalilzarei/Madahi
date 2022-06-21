@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".application.App"
@@ -17,6 +18,16 @@
         android:theme="@style/Theme.Madahi"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
+        <meta-data
+            android:name="com.pushpole.sdk.token"
+            android:value="PUSHPOLE_474199352360" />
+
+        <activity
+            android:name=".ui.intro.IntroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.about.AboutActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.favorite.FavoritesActivity"
             android:exported="false" />

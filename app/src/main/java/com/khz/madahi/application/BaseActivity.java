@@ -1,14 +1,8 @@
 package com.khz.madahi.application;
 
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -24,6 +18,8 @@ import com.khz.madahi.helper.SessionManager;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.pushpole.sdk.PushPole;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
@@ -42,6 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(this);
+        PushPole.initialize(this, true);
         if (sessionManager.isNightMode()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -51,7 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         activity       = this;
         databaseHelper = DatabaseHelper.getInstance(this);
         hideTiTleActionBar();
-        if (SessionManager.isLoggedIn())
+        if (sessionManager.isLoggedIn())
             userId = SessionManager.getUser()
                                    .getId();
     }

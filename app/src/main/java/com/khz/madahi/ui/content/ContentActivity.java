@@ -41,7 +41,18 @@ public class ContentActivity extends BaseActivity {
         items = databaseHelper.contentDAO()
                               .getAllWithCategoryId(category.getId());
         adapter.setData(items);
-        setBaseActivityValues(this, binding.getRoot(), this.getClass().getSimpleName());
+        setBaseActivityValues(this, binding.getRoot(), this.getClass()
+                                                           .getSimpleName());
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (viewModel.getIsVisible()) {
+            viewModel.setIsVisible(false);
+            return;
+        }
+        super.onBackPressed();
     }
 
 }

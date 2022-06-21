@@ -20,6 +20,9 @@ import com.khz.madahi.network.APIService;
 import com.khz.madahi.network.RetroClass;
 import com.khz.madahi.ui.category.CategoryActivity;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -78,6 +81,9 @@ public class LoginViewModel extends BaseObservable {
 
     //region OnClick
     public void checkLogin(View view) {
+        String  pattern = "(\\+98)?09\\d{9}";
+        Pattern r       = Pattern.compile(pattern);
+
 
         if (!isLogin && (fullName == null || fullName.isEmpty())) {
             activity.showErrorSnackBar("لطفا نام نام خانوادگی خود را وارد کنید");
@@ -85,6 +91,12 @@ public class LoginViewModel extends BaseObservable {
         }
         if (mobile == null || mobile.isEmpty()) {
             activity.showErrorSnackBar("لطفا موبایل خود را وارد کنید");
+            return;
+        }
+        Matcher m = r.matcher(mobile.trim());
+
+        if (!m.find()) {
+            activity.showErrorSnackBar("لطفا شماره موبایل معتبر وارد کنید");
             return;
         }
 
@@ -120,7 +132,7 @@ public class LoginViewModel extends BaseObservable {
                 if (response.isSuccessful() && loginResponse != null) {
                     activity.showSuccessSnackBar(loginResponse.getErrorMsg());
                     if (!loginResponse.getError()) {
-                        SessionManager.setIsLoggedIn(true);
+                        activity.sessionManager.setIsLoggedIn(true);
                         for (Category category : loginResponse.getCategories()) {
                             activity.databaseHelper.categoryDAO()
                                                    .insert(category);
@@ -134,7 +146,7 @@ public class LoginViewModel extends BaseObservable {
                                                    .insert(content);
                         }
 
-                        SessionManager.setUser(loginResponse.getUser());
+                        activity.sessionManager.setUser(loginResponse.getUser());
 
                         new Handler().postDelayed(() -> {
                             progressDialog.dismiss();
@@ -174,7 +186,7 @@ public class LoginViewModel extends BaseObservable {
                 if (response.isSuccessful() && loginResponse != null) {
                     activity.showSuccessSnackBar(loginResponse.getErrorMsg());
                     if (!loginResponse.getError()) {
-                        SessionManager.setIsLoggedIn(true);
+                        activity.sessionManager.setIsLoggedIn(true);
                         for (Category category : loginResponse.getCategories()) {
                             activity.databaseHelper.categoryDAO()
                                                    .insert(category);
@@ -188,7 +200,7 @@ public class LoginViewModel extends BaseObservable {
                                                    .insert(content);
                         }
 
-                        SessionManager.setUser(loginResponse.getUser());
+                        activity.sessionManager.setUser(loginResponse.getUser());
                         new Handler().postDelayed(() -> {
                             progressDialog.dismiss();
                             activity.startActivity(new Intent(activity, CategoryActivity.class));
